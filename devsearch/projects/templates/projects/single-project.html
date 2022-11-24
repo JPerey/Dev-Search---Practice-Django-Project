@@ -8,5 +8,11 @@
 <p>Title : {{project.title}}</p>
 <br>
 <p>Description : {{project.description}}</p>
+<br>
+
+{% for tag in tags %}
+<p>{{tag}}</p>
+
+{% endfor %}
 
 {% endblock content %}
