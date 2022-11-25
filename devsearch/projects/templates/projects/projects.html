@@ -2,22 +2,30 @@
 
 {% block content %}
 
-
-{% if num > 10 %}
-<p>number is greater than 10</p>
-
-{% endif %}
-
 <hr>
 
 <h1> Projects</h1>
-<ul>
-    {%for project in projects%}
-    <li><a href="{% url 'project' project.id %}"><h3>{{project.title}}</h3></a></li>
-    <li><p>{{project.description}}</p></li>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Project</th>
+        <th>Votes</th>
+        <th>+ vote ratio</th>
+        <th></th>
+    </tr>
+
+    {% for project in projects %}
+    <tr>
+        <td>{{project.id}}</td>
+        <td>{{project.title}}</td>
+        <td>{{project.vote_total}}</td>
+        <td>{{project.vote_ratio}}%</td>
+        <td>{{project.created}}</td>
+        <td><a href="{% url 'project' project.id %}"> View</a></td>
+    </tr>
 
     {% endfor %}
-</ul>
-
+</table>
 
 {% endblock content %}
