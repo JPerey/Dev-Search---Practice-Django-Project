@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 
@@ -35,7 +36,7 @@ def loginUser(requests):
         try:
             user = User.objects.get(username=username)
         except:
-            print("username does not exist")
+            messages.error(requests, "Username does not exist")
 
         user = authenticate(requests, username=username, password=password)
 
@@ -44,7 +45,7 @@ def loginUser(requests):
             login(requests, user)
             return redirect('profiles')
         else:
-            print('Username OR password is incorrect')
+            messages.error(requests, "Username or Password was incorrect.")
 
     context = {
 
@@ -54,4 +55,5 @@ def loginUser(requests):
 
 def logoutUser(requests):
     logout(requests)
+    messages.success(requests, "User was succesfully logged out")
     return redirect('login')
