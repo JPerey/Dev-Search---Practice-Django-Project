@@ -4,6 +4,7 @@ from .models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .forms import CustomUserCreationForm
 
 # Create your views here.
 
@@ -25,6 +26,7 @@ def userProfile(requests, pk):
 
 
 def loginUser(requests):
+    page = "login"
 
     if requests.user.is_authenticated:
         return redirect('profiles')
@@ -48,6 +50,7 @@ def loginUser(requests):
             messages.error(requests, "Username or Password was incorrect.")
 
     context = {
+        "page": page,
 
     }
     return render(requests, 'users/login_register.html', context)
@@ -57,3 +60,30 @@ def logoutUser(requests):
     logout(requests)
     messages.success(requests, "User was succesfully logged out")
     return redirect('login')
+
+
+def registerUser(requests):
+    page = "register"
+    form = CustomUserCreationForm()
+
+    if requests.method == "POST":
+        form = CustomUserCreationForm(requests.POST)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()  # <-- this removes the
+            # event where upper and lower case versions of a username exist in the same database
+            user.save()
+
+            messages.success(requests, "user account was created")
+            login(requests, user)
+            return redirect('profiles')
+        else:
+            messages.error(requests, "An error has occurred.")
+
+    context = {
+        "page": page,
+        "form": form,
+
+    }
+    return render(requests, 'users/login_register.html', context)
