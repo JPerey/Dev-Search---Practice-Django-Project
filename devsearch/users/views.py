@@ -11,25 +11,25 @@ from .forms import CustomUserCreationForm
 
 def profiles(requests):
     profiles = Profile.objects.all()
-    context = {'profiles': profiles}
+    context = {"profiles": profiles}
 
-    return render(requests, 'users/profiles.html', context)
+    return render(requests, "users/profiles.html", context)
 
 
 def userProfile(requests, pk):
     profileObj = Profile.objects.get(id=pk)
     context = {
-        'profile': profileObj,
+        "profile": profileObj,
     }
 
-    return render(requests, 'users/user-profile.html', context)
+    return render(requests, "users/user-profile.html", context)
 
 
 def loginUser(requests):
     page = "login"
 
     if requests.user.is_authenticated:
-        return redirect('profiles')
+        return redirect("profiles")
 
     if requests.method == "POST":
         username = requests.POST["username"]
@@ -45,21 +45,20 @@ def loginUser(requests):
         if user is not None:
             # <-- login function creates a session on the database for the user
             login(requests, user)
-            return redirect('profiles')
+            return redirect("profiles")
         else:
             messages.error(requests, "Username or Password was incorrect.")
 
     context = {
         "page": page,
-
     }
-    return render(requests, 'users/login_register.html', context)
+    return render(requests, "users/login_register.html", context)
 
 
 def logoutUser(requests):
     logout(requests)
     messages.success(requests, "User was succesfully logged out")
-    return redirect('login')
+    return redirect("login")
 
 
 def registerUser(requests):
@@ -77,13 +76,22 @@ def registerUser(requests):
 
             messages.success(requests, "user account was created")
             login(requests, user)
-            return redirect('profiles')
+            return redirect("profiles")
         else:
             messages.error(requests, "An error has occurred.")
 
     context = {
         "page": page,
         "form": form,
-
     }
-    return render(requests, 'users/login_register.html', context)
+    return render(requests, "users/login_register.html", context)
+
+
+@login_required(login_url="login")
+def userAccount(requests):
+    profile = requests.user.profile
+    context = {
+        "profile": profile,
+    }
+
+    return render(requests, "users/account.html", context)
