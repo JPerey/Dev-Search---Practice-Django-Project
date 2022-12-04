@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Skill
+from .models import Skill, Profile
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -43,9 +43,27 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class SkillForm(ModelForm):
-    class meta:
+    class Meta:
         model = Skill
         fields = [
             "name",
             "description",
+        ]
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            "name",
+            "location",
+            "email",
+            "short_intro",
+            "bio",
+            "profile_image",
+            "social_github",
+            "social_twitter",
+            "social_linkedin",
+            "social_youtube",
+            "social_website",
         ]

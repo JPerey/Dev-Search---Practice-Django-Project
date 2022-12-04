@@ -4,7 +4,7 @@ from .models import Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import CustomUserCreationForm, SkillForm
+from .forms import CustomUserCreationForm, SkillForm, ProfileForm
 
 # Create your views here.
 
@@ -117,3 +117,11 @@ def deleteSkill(requests):
 
     context = {}
     return render(requests, "users/delete_skill.html", context)
+
+
+@login_required(login_url="login")
+def editAccount(requests):
+    form = ProfileForm()
+
+    context = {"form": form}
+    return render(requests, "users/profile_form.html", context)
