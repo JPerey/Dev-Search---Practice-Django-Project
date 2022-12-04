@@ -19,14 +19,16 @@
             <ul class="dev__social">
               {% if profile.social_github %}
               <li>
-                <a title="Github" href="{{profile.social_github}}" target="_blank"><i class="im im-github">Github</i></a>
+                <a title="Github" href="{{profile.social_github}}" target="_blank"><i
+                    class="im im-github">Github</i></a>
               </li>
               {% endif %}
 
 
               {% if profile.social_twitter %}
               <li>
-                <a title="Twitter" href="{{profile.social_twitter}}" target="_blank"><i class="im im-twitter">Twitter</i></a>
+                <a title="Twitter" href="{{profile.social_twitter}}" target="_blank"><i
+                    class="im im-twitter">Twitter</i></a>
               </li>
               {% endif %}
 
@@ -57,10 +59,8 @@
         </div>
         <div class="settings">
           <h3 class="settings__title">Skills</h3>
-          <a class="tag tag--pill tag--sub settings__btn tag--lg" href=""><i
-              class="im im-plus"></i> Add Skill</a>
+          <a class="tag tag--pill tag--sub settings__btn tag--lg" href=""><i class="im im-plus"></i> Add Skill</a>
         </div>
-
         <table class="settings__table">
           {% for skill in profile.skill_set.all %}
           <tr>
@@ -71,10 +71,9 @@
               </p>
             </td>
             <td class="settings__tableActions">
-              <!-- url 'update-skill' skill.id  url 'delete-skill' skill.id ?next=/account-->
-              <a class="tag tag--pill tag--main settings__btn" href=""><i 
+              <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-skill' skill.id %}"><i
                   class="im im-edit"></i> Edit</a>
-              <a class="tag tag--pill tag--main settings__btn" href=""><i
+              <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-skill' skill.id %}"><i
                   class="im im-x-mark-circle-o"></i>
                 Delete</a>
             </td>

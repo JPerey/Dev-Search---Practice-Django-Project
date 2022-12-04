@@ -1,11 +1,11 @@
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Skill
 
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
-        ordering = [-1]
         model = User
         fields = [
             "first_name",
@@ -40,3 +40,12 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields["password2"].widget.attrs.update(
             {" class": "input input--password", "id": "formInput#password"}
         )
+
+
+class SkillForm(ModelForm):
+    class meta:
+        model = Skill
+        fields = [
+            "name",
+            "description",
+        ]
