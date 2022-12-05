@@ -76,7 +76,7 @@ def registerUser(requests):
 
             messages.success(requests, "user account was created")
             login(requests, user)
-            return redirect("profiles")
+            return redirect("userAccount")
         else:
             messages.error(requests, "An error has occurred.")
 
