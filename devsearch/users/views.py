@@ -122,6 +122,14 @@ def deleteSkill(requests):
 @login_required(login_url="login")
 def editAccount(requests):
     form = ProfileForm()
+    profile = requests.user.profile
+
+    if requests.method == "POST":
+        form = ProfileForm(requests.POST, requests.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+
+            return redirect("userAccount")
 
     context = {"form": form}
     return render(requests, "users/profile_form.html", context)
