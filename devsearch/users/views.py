@@ -139,9 +139,10 @@ def deleteSkill(requests, pk):
     skillObj = profile.skill_set.get(id=pk)
     if requests.method == "POST":
         skillObj.delete()
+        messages.success(requests, "Skill was deleted successfully!")
         return redirect("userAccount")
 
-    context = {}
+    context = {"skill": skillObj}
     return render(requests, "users/delete_skill_template.html", context)
 
 

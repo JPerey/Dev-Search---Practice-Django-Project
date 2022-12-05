@@ -1,14 +1,24 @@
 {% extends 'main.html' %}
 
 {% block content %}
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <a class="backButton" href="{{request.GET.next}}"><i class="im im-angle-left"> < </i></a>
+            <br>
 
-<form action="" method="POST">
-    {% csrf_token %}
-    <h2>Are You Sure you want to delete {{object}}</h2>
-    <button><a href="{% url 'projects' %}">Go Back</a></button>
-    <input type="submit" value="Confirm"/>
-</form>
+            <form class="form" method="POST">
 
+                <!-- Input:Text -->
+                <div class="form__field">
+                    {% csrf_token %}
+                    <h2>Are You Sure you want to delete "{{ skill }}"</h2>
+                </div>
 
+                <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+</main>
 
 {% endblock %}
