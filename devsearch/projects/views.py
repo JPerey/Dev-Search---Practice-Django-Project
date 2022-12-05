@@ -16,46 +16,50 @@ def project(requests, pk):
     projectObj = Project.objects.get(id=pk)
     tags = projectObj.tags.all()
     return render(
-        requests, "projects/single-project.html", {
-            "project": projectObj, "tags": tags}
+        requests, "projects/single-project.html", {"project": projectObj, "tags": tags}
     )
 
 
 @login_required(login_url="login")
 def createProject(requests):
+    profile = requests.user.profile
 
     form = ProjectForm()
     if requests.method == "POST":
         # print(requests.POST)
         form = ProjectForm(requests.POST, requests.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('projects')
+            project = form.save(commit=False)
+            project.owner = profile
+            project.save()
+            return redirect("projects")
 
-    context = {'form': form}
+    context = {"form": form}
     return render(requests, "projects/project_form.html", context)
 
 
 @login_required(login_url="login")
 def updateProject(requests, pk):
-    projectObj = Project.objects.get(id=pk)
+    profile = requests.user.profile
+    projectObj = profile.project_set.get(id=pk)
     form = ProjectForm(instance=projectObj)
     if requests.method == "POST":
         # print(requests.POST)
-        form = ProjectForm(requests.POST, requests.FILES,  instance=projectObj)
+        form = ProjectForm(requests.POST, requests.FILES, instance=projectObj)
         if form.is_valid():
             form.save()
-            return redirect('projects')
+            return redirect("projects")
 
-    context = {'form': form}
+    context = {"form": form}
     return render(requests, "projects/project_form.html", context)
 
 
 @login_required(login_url="login")
 def deleteProject(requests, pk):
-    projectObj = Project.objects.get(id=pk)
+    profile = requests.user.profile
+    projectObj = profile.project_set.get(id=pk)
     if requests.method == "POST":
         projectObj.delete()
-        return redirect('projects')
-    context = {'object': projectObj}
-    return render(requests, 'projects/delete_template.html', context)
+        return redirect("projects")
+    context = {"object": projectObj}
+    return render(requests, "projects/delete_template.html", context)

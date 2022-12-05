@@ -9,7 +9,7 @@ urlpatterns = [
     path("edit-account/", views.editAccount, name="edit-account"),
     path("", views.profiles, name="profiles"),
     path("profile/<str:pk>/", views.userProfile, name="userProfile"),
-    path("profile/<str:pk>/create-skill/", views.createSkill, name="create-skill"),
-    path("profile/<str:pk>/update-skill/", views.updateSkill, name="update-skill"),
-    path("profile/<str:pk>/delete-skill", views.deleteSkill, name="delete-skill"),
+    path("create-skill/", views.createSkill, name="create-skill"),
+    path("update-skill/<str:pk>/", views.updateSkill, name="update-skill"),
+    path("delete-skill/<str:pk>/", views.deleteSkill, name="delete-skill"),
 ]

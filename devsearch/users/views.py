@@ -99,24 +99,50 @@ def userAccount(requests):
 
 @login_required(login_url="login")
 def createSkill(requests):
+    profile = requests.user.profile
     form = SkillForm()
 
+    if requests.method == "POST":
+        form = SkillForm(requests.POST)
+        if form.is_valid():
+            skill = form.save(commit=False)
+            # this is what sets the skill to the current logged in user
+            skill.owner = profile
+            skill.save()
+            messages.success(requests, "Skill was added successfully!")
+            return redirect("userAccount")
+
     context = {"form": form}
-    return render(requests, "users/create_update.html", context)
+    return render(requests, "users/skill_form.html", context)
 
 
 @login_required(login_url="login")
-def updateSkill(requests):
+def updateSkill(requests, pk):
+    profile = requests.user.profile
+    skillObj = profile.skill_set.get(id=pk)
+    form = SkillForm(instance=skillObj)
 
-    context = {}
-    return render(requests, "users/create_update.html", context)
+    if requests.method == "POST":
+        form = SkillForm(requests.POST, instance=skillObj)
+        if form.is_valid():
+            form.save()
+            messages.success(requests, "Skill was updated!")
+            return redirect("userAccount")
+
+    context = {"form": form}
+    return render(requests, "users/skill_form.html", context)
 
 
 @login_required(login_url="login")
-def deleteSkill(requests):
+def deleteSkill(requests, pk):
+    profile = requests.user.profile
+    skillObj = profile.skill_set.get(id=pk)
+    if requests.method == "POST":
+        skillObj.delete()
+        return redirect("userAccount")
 
     context = {}
-    return render(requests, "users/delete_skill.html", context)
+    return render(requests, "users/delete_skill_template.html", context)
 
 
 @login_required(login_url="login")
@@ -132,4 +158,4 @@ def editAccount(requests):
             return redirect("userAccount")
 
     context = {"form": form}
-    return render(requests, "users/profile_form.html", context)
+    return render(requests, "users/delete_skill_template.html", context)

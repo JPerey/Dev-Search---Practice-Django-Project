@@ -45,10 +45,19 @@ class CustomUserCreationForm(UserCreationForm):
 class SkillForm(ModelForm):
     class Meta:
         model = Skill
-        fields = [
-            "name",
-            "description",
+        fields = "__all__"
+        exclude = [
+            "owner",
+            "created",
+            "id",
         ]
+
+    def __init__(self, *args: any, **kwargs: any) -> None:
+        super(SkillForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            # for loop to update through all fields' classes
+            field.widget.attrs.update({"class": "input"})
 
 
 class ProfileForm(ModelForm):
