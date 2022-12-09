@@ -5,23 +5,13 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, SkillForm, ProfileForm
-from django.db.models import Q
+from .utils import searchProfiles
 
 # Create your views here.
 
 
 def profiles(requests):
-    search_text = ""
-
-    if requests.GET.get("search_text"):
-        search_text = requests.GET.get("search_text")
-        print(search_text)
-
-    profiles = Profile.objects.filter(
-        Q(name__icontains=search_text) | Q(short_intro__icontains=search_text)
-    )
-
-    skills = Skill.objexts.filter(name__exact=search_query)
+    profiles, search_text = searchProfiles(requests)
 
     context = {"profiles": profiles, "search_text": search_text}
 
