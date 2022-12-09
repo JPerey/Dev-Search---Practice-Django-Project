@@ -161,4 +161,4 @@ def editAccount(requests):
             return redirect("userAccount")
 
     context = {"form": form}
-    return render(requests, "users/delete_skill_template.html", context)
+    return render(requests, "users/profile_form.html", context)

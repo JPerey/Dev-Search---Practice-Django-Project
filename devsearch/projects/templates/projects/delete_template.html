@@ -5,7 +5,7 @@
 <form action="" method="POST">
     {% csrf_token %}
     <h2>Are You Sure you want to delete {{object}}</h2>
-    <button><a href="{% url 'projects' %}">Go Back</a></button>
+    <button><a href="{{request.GET.next}}">Go Back</a></button>
     <input type="submit" value="Confirm"/>
 </form>
 
