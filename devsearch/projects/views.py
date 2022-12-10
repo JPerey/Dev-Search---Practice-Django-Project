@@ -4,7 +4,6 @@ from .models import Project, Tag
 from .forms import ProjectForm
 from django.db.models import Q
 from .utils import searchProjects, paginateProjects
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def projects(requests):
