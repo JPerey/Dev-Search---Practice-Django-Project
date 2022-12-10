@@ -3,14 +3,21 @@ from django.contrib.auth.decorators import login_required
 from .models import Project, Tag
 from .forms import ProjectForm
 from django.db.models import Q
-from .utils import searchProjects
+from .utils import searchProjects, paginateProjects
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def projects(requests):
 
     projects, search_text = searchProjects(requests)
 
-    context = {"projects": projects, "search_text": search_text}
+    custom_range, projects = paginateProjects(requests, projects, 6)
+
+    context = {
+        "projects": projects,
+        "search_text": search_text,
+        "custom_range": custom_range,
+    }
     return render(requests, "projects/projects.html", context)
 
 
@@ -18,8 +25,7 @@ def project(requests, pk):
     projectObj = Project.objects.get(id=pk)
     tags = projectObj.tags.all()
     return render(
-        requests, "projects/single-project.html", {
-            "project": projectObj, "tags": tags}
+        requests, "projects/single-project.html", {"project": projectObj, "tags": tags}
     )
 
 
