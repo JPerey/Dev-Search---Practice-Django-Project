@@ -53,32 +53,37 @@
                         Vote{{project.vote_total|pluralize:"s"}})
                     </h5>
 
-                    <form class="form" action="#" method="POST">
-                        <!-- Textarea -->
+                    <form class="form" action="{% url 'project' project.id %}" method="POST">
+                        {% csrf_token %}
+                        {% for field in form %}
+
                         <div class="form__field">
-                            <label for="formInput#textarea">Comments: </label>
-                            <textarea class="input input--textarea" name="message" id="formInput#textarea"
-                                placeholder="Write your comments here..."></textarea>
+                            <label for="formInput#textarea">{{field.label}} </label>
+                            {{field}}
                         </div>
+                        {% endfor %}
                         <input class="btn btn--sub btn--lg" type="submit" value="Comments" />
                     </form>
                     <div class="commentList">
-                        {% for review in project.review_Set.all %}
+                        <h1>hello!</h1>
+                        {% for review in project.review_set.all %}
+                        {% if review.review %}
                         <div class="comment">
-                            <a href="{% url 'user-profile' review.owner.id %}">
-                                <img class="avatar avatar--md" src="{{review.owner.featured_image.url}}" alt="user" />
+                            <a href="{% url 'userProfile' review.owner.id %}">
+                                <img class="avatar avatar--md" src="{{review.owner.profile_image.url}}" alt="user" />
                             </a>
 
                             <div class="comment__details">
-                                <a href="{% url 'user-profile' review.owner.id %}"
+                                <a href="{% url 'userProfile' review.owner.id %}"
                                     class="comment__author">{{ review.owner.name }}</a>
                                 <p class="comment__info">
-                                    {{review.review}}
+                                    {{review.review | linebreaksbr}}
                                 </p>
                             </div>
                         </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
