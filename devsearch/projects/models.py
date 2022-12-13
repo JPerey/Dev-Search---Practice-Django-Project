@@ -23,8 +23,16 @@ class Project(models.Model):
 
     class Meta:
         ordering = [
-            "-created",
+            "title",
+            "-created",  # -vote_ratio", "-vote_total"
         ]
+
+    @property
+    def reviewers(self):
+        queryset = self.review_set.all().values_list(
+            "owner__id", flat=True
+        )  # flat= True converts this variable into a list
+        return queryset
 
     @property
     def getVoteCount(self):
