@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Skill, Profile
+from .models import Skill, Profile, Message
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -83,3 +83,16 @@ class ProfileForm(ModelForm):
         for name, field in self.fields.items():
             # for loop to update through all fields' classes
             field.widget.attrs.update({"class": "input"})
+
+
+class MessageForm(ModelForm):
+    class Meta:
+        model = Message
+        fields = [
+            "sender",
+            "recipient",
+            "name",
+            "email",
+            "subject",
+            "body",
+        ]

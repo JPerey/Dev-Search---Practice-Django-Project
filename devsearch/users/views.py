@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Message
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import CustomUserCreationForm, SkillForm, ProfileForm
+from .forms import CustomUserCreationForm, SkillForm, ProfileForm, MessageForm
 from .utils import searchProfiles, paginateProfiles
 
 # Create your views here.
@@ -170,3 +170,33 @@ def editAccount(requests):
 
     context = {"form": form}
     return render(requests, "users/profile_form.html", context)
+
+
+@login_required(login_url="login")
+def Inbox(requests):
+    profile = requests.user.profile
+    messageRequests = profile.messages.all()
+    read_messages = profile.messages.filter(is_read=True)
+    unread_messages = profile.messages.filter(is_read=False)
+    unread_count = messageRequests.filter(is_read=False).count()
+
+    context = {
+        "messageRequests": messageRequests,
+        "unread_count": unread_count,
+        "unread_messages": unread_messages,
+        "read_messages": read_messages,
+    }
+    return render(requests, "users/inbox.html", context)
+
+
+@login_required(login_url="login")
+def viewMessage(requests, pk):
+    profile = requests.user.profile
+    message = profile.messages.get(id=pk)
+    if message.is_read == False:
+        message.is_read = True
+        message.save()
+    context = {
+        "message": message,
+    }
+    return render(requests, "users/message.html", context)
