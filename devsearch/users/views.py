@@ -200,3 +200,36 @@ def viewMessage(requests, pk):
         "message": message,
     }
     return render(requests, "users/message.html", context)
+
+
+def createMessage(requests, pk):
+    recipient = Profile.objects.get(id=pk)
+    form = MessageForm()
+
+    try:
+        sender = requests.user.profile
+    except:
+        sender = None
+
+    if requests.method == "POST":
+        form = MessageForm(requests.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = sender
+            message.recipient = recipient
+
+            if sender:
+                message.name = sender.name
+                message.email = sender.email
+            message.save()
+
+            messages.success(requests, "message successfully sent")
+
+            return redirect("userProfile", pk=recipient.id)
+
+    context = {
+        "form": form,
+        "recipient": recipient,
+    }
+
+    return render(requests, "users/message_form.html", context)

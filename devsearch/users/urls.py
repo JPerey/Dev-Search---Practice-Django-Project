@@ -9,6 +9,7 @@ urlpatterns = [
     path("edit-account/", views.editAccount, name="edit-account"),
     path("inbox/", views.Inbox, name="inbox"),
     path("message/<str:pk>", views.viewMessage, name="message"),
+    path("create-message/<str:pk>", views.createMessage, name="createMessage"),
     path("", views.profiles, name="profiles"),
     path("profile/<str:pk>/", views.userProfile, name="userProfile"),
     path("create-skill/", views.createSkill, name="create-skill"),
