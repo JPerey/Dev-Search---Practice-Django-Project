@@ -2,6 +2,8 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from .models import Profile
+from django.core.mail import send_mail
+import os
 
 # @receiver(post_save, sender=Profile)
 
@@ -14,6 +16,17 @@ def createProfile(sender, instance, created, **kwargs):
             username=user.username,
             email=user.email,
             name=user.first_name,
+        )
+
+        subject = "Welcome to DevSearch!"
+        message = f"Thank you for joining our community {profile.name}, Please finish your profile so we can all start talking together!"
+
+        send_mail(
+            subject,
+            message,
+            os.getenv("EMAIL"),
+            [profile.email],
+            fail_silently=False,
         )
 
 
