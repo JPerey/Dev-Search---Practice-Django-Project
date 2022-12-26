@@ -59,6 +59,11 @@ def createProject(requests):
             project = form.save(commit=False)
             project.owner = profile
             project.save()
+
+            for tag in new_tags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
+
             return redirect("projects")
 
     context = {"form": form}

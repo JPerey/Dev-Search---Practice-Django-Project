@@ -12,7 +12,6 @@ class ProjectForm(ModelForm):
             "featured_image",
             "demo_link",
             "source_link",
-            "tags",
         ]
         widgets = {
             "tags": forms.CheckboxSelectMultiple(),
