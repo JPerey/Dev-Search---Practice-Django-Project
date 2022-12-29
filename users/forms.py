@@ -76,6 +76,7 @@ class ProfileForm(ModelForm):
             "social_youtube",
             "social_website",
         ]
+        ordering = ["-name"]
 
     def __init__(self, *args: any, **kwargs: any) -> None:
         super(ProfileForm, self).__init__(*args, **kwargs)
