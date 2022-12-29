@@ -90,7 +90,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "devsearch",
-        "USER": "jamjamjamesperey",
+        "USER": "jamjam.perey2@gmail.com",
         "PASSWORD": os.getenv("PASSWORD"),
         "HOST": "database-1.cjztge5ayrrl.us-west-2.rds.amazonaws.com",
         "PORT": "5433",
