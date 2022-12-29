@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "https://jperey-devsearch.herokuapp.com/"]
 
 
 # Application definition
@@ -170,3 +170,9 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 
 AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+
+
+if os.getcwd() == "/app":
+    DEBUG = False
+else:
+    DEBUG = True
